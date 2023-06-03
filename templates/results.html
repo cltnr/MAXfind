@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MAXfind</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+    }
+    
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat({{ days|length + 1}}, 1fr); 
+      grid-gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .hour {
+      border-top: 1px solid #ccc;
+      padding: 10px;
+      position: sticky;
+      left: 0;
+      background-color: #fff;
+      z-index: 1;
+      font-weight: bold;
+    }
+    
+    .day {
+      border-top: 1px solid #ccc;
+      width: 150px;
+      color: white;
+      font-size: 10px;
+    }
+    
+    .day-header {
+      position: sticky;
+      top: 0;
+      background-color: #fff;
+      font-weight: bold;
+    }
+    
+    .event-wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .event {
+      padding: 10px;
+      margin-bottom: 5px;
+    }
+    
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      padding: 20px;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <h1>MAXfind</h1>
+  
+  <div class="calendar">
+    <div></div> <!-- empty cell for spacing -->
+    {% for day in days %}
+    <div class="day-header">{{ day }}</div>
+    {% endfor %}
+    
+    <div class="hour">12:00 AM</div>
+    <!-- <div class="day"></div> empty cell for spacing -->
+    {% for day in days %}
+    <div class="day"></div>
+    {% endfor %}
+
+    
+    <script>
+      // Sample events
+      const events = [{{ str_events|safe }}];
+      
+      // Function to create event element
+      function createEventElement(title, alignment, color) {
+        const eventWrapper = document.createElement('div');
+        eventWrapper.className = 'event-wrapper';
+      
+        const eventElement = document.createElement('div');
+        eventElement.className = 'event';
+        eventElement.style.textAlign = alignment;
+        eventElement.style.backgroundColor = color;
+        eventElement.innerText = title;
+      
+        eventWrapper.appendChild(eventElement);
+      
+        return eventWrapper;
+      }
+      
+      // Function to show event details in a pop-up
+      function showEventDetails(event) {
+        // Create the pop-up element
+        const popup = document.createElement('div');
+        popup.className = 'popup';
+      
+        // Create the content for the pop-up
+        const title = document.createElement('h2');
+        title.innerText = event.title;
+      
+        const details = document.createElement('p');
+        details.innerText = 'Todo';
+      
+        // Create the close button
+        const closeButton = document.createElement('button');
+        closeButton.innerText = 'Close';
+        closeButton.addEventListener('click', function() {
+          popup.remove();
+        });
+      
+        // Append the content to the pop-up
+        popup.appendChild(title);
+        popup.appendChild(details);
+        popup.appendChild(closeButton);
+      
+        // Append the pop-up to the body
+        document.body.appendChild(popup);
+      }
+      
+      // Populate the calendar with events
+      for (let hour = 0; hour < 24; hour++) {
+        const hourElement = document.createElement('div');
+        hourElement.className = 'hour';
+        hourElement.innerText = hour.toString().padStart(2, '0') + ':00';
+        document.body.querySelector('.calendar').appendChild(hourElement);
+      
+        for (let day = 1; day <= {{ days|length }}; day++) {
+          const dayElement = document.createElement('div');
+          dayElement.className = 'day';
+      
+          const matchingEvents = events.filter(e => e.day === day && e.hour === hour);
+          if (matchingEvents.length > 0) {
+            matchingEvents.forEach(event => {
+              const eventElement = createEventElement(event.title, event.alignment, event.color);
+              eventElement.addEventListener('click', function() {
+                showEventDetails(event);
+              });
+              dayElement.appendChild(eventElement);
+            });
+          }
+      
+          document.body.querySelector('.calendar').appendChild(dayElement);
+        }
+      }
+    </script>
+</body>
+</html>
