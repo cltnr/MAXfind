@@ -37,7 +37,7 @@ def results(name=None):
             color = "orangered"
         str_events += f"""
             {{
-            day: {(row['date'] - (datetime.strptime('2023-06-05', '%Y-%m-%d')).date()).days+1},
+            day: {(row['date'] - (datetime.strptime(request.args.get('trip-start'), '%Y-%m-%d')).date()).days+1},
             hour: {row['hour']},
             title: '{row['orig'][0:10]} > {row['dest'][0:10]}',
             alignment: 'left',

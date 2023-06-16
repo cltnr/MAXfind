@@ -69,4 +69,4 @@ def lookup_date_range_both_ways(stationsA, stationsB, start, end):
     return pd.concat([a_to_b, b_to_a])#.sort_values(by="start_time")
 
 
-print(lookup_date_range_both_ways(['FRDJU'], ['FRNTE'], '2023-06-04', '2023-06-04').reset_index().drop('index', axis=1).head())
+# print(lookup_date_range_both_ways(['FRDJU'], ['FRNTE'], '2023-06-04', '2023-06-04').reset_index().drop('index', axis=1).head())
