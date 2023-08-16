@@ -16,6 +16,23 @@ def lookup_one_day(orig: list, dest: list, day: str) -> pd.DataFrame:
                 "destination": station_tuple[1],
                 "origin": station_tuple[0],
             },
+            headers={
+                'authority': 'www.maxjeune-tgvinoui.sncf',
+                'accept': 'application/json',
+                'accept-language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7',
+                'content-type': 'application/json',
+                'origin': 'https://www.maxjeune-tgvinoui.sncf',
+                'referer': 'https://www.maxjeune-tgvinoui.sncf/sncf-connect/max-planner',
+                'sec-ch-ua': '"Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"macOS"',
+                'sec-fetch-dest': 'empty',
+                'sec-fetch-mode': 'cors',
+                'sec-fetch-site': 'same-origin',
+                'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
+                'x-client-app': 'MAX_JEUNE',
+                'x-client-app-version': '1.46.1'
+            },
             timeout=30,
         )
         try:
