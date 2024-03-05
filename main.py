@@ -24,7 +24,17 @@ def results(name=None):
     if request.args.get('end2') != "":
         end.append((MAPPING[request.args.get('end2')]))
 
-    result = lookup_date_range_both_ways(start, end, request.args.get('trip-start'), request.args.get('trip-end')).reset_index().drop('index', axis=1)
+    result = (
+        lookup_date_range_both_ways(
+            start,
+            end,
+            request.args.get("trip-start"),
+            request.args.get("trip-end"),
+            request.args.get("captcha_datadome"),
+        )
+        .reset_index()
+        .drop("index", axis=1)
+    )
     if len(result.index) == 0:
         return("No results.")
     rg = result.groupby(['date', 'day', 'hour', 'direction', 'orig', 'dest']).agg(total_seats=('seats', 'sum')).reset_index()
@@ -60,4 +70,3 @@ def results(name=None):
         start_dt += delta
 
     return render_template('results.html', days=days, str_events=str_events)
-    
