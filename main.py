@@ -29,8 +29,7 @@ def results(name=None):
             start,
             end,
             request.args.get("trip-start"),
-            request.args.get("trip-end"),
-            request.args.get("captcha_datadome"),
+            request.args.get("trip-end")
         )
         .reset_index()
         .drop("index", axis=1)
