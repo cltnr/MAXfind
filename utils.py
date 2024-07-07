@@ -121,7 +121,7 @@ def lookup_one_day(orig: list, dest: list, day: str) -> pd.DataFrame:
     return pd.DataFrame.from_dict(results)
 
 
-def lookup_date_range_one_way(origs, dests, start, end, datadome):
+def lookup_date_range_one_way(origs, dests, start, end):
     start = datetime.strptime(start, "%Y-%m-%d").date()
     end = datetime.strptime(end, "%Y-%m-%d").date()
 
@@ -129,7 +129,7 @@ def lookup_date_range_one_way(origs, dests, start, end, datadome):
     current_date = start
     while current_date <= end:
         results.append(
-            lookup_one_day(origs, dests, current_date.strftime("%Y-%m-%d"), datadome)
+            lookup_one_day(origs, dests, current_date.strftime("%Y-%m-%d"))
         )
         current_date += timedelta(days=1)
 
