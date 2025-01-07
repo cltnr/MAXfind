@@ -63,9 +63,9 @@ def lookup_one_day(orig: list, dest: list, day: str) -> pd.DataFrame:
     results = []
     for station_tuple in itertools.product(*[orig, dest]):
         datadome = get_datadome_cookie()
-        r = requests.post(
+        r = requests.get(
             "https://www.maxjeune-tgvinoui.sncf/api/public/refdata/search-freeplaces-proposals",
-            json={
+            params={
                 "departureDateTime": day,
                 "destination": station_tuple[1],
                 "origin": station_tuple[0],
